@@ -24,7 +24,7 @@ class Store {
   }
 
   async fetchPosts() {
-    const response = await axios.get<Post[]>('/post')
+    const response = await axios.get<Post[]>('/posts')
     const postsState: PostsState = {
       ids: [],
       all: new Map,
@@ -38,9 +38,11 @@ class Store {
   }
 }
 
+const all = new Map<string, Post>()
+
 const store = new Store({
   posts: {
-    all: new Map(),
+    all,
     ids: [],
     loaded: false
   }
