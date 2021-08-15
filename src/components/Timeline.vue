@@ -30,17 +30,10 @@ import {useStore} from "@/store";
 
 type Period = 'Today' | 'This Week' | 'This Month'
 
-function delay(){
-  return new Promise(res => {
-    setTimeout(res, 2000)
-  })
-}
-
 export default defineComponent({
   name: 'Timeline',
   components: {TimelinePost},
   async setup() {
-    await delay()
     const periods: Array<Period> = ['Today', 'This Week', 'This Month']
     const currentPeriod = ref<Period>('Today')
     const store = useStore().getState();
