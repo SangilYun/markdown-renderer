@@ -33,10 +33,13 @@ export default defineComponent({
   setup(props) {
     const title = ref(props.post.title)
     const content = ref('## Title\nEnter your post content...')
-    const contentEditable = ref<HTMLDivElement>(null)
+    const contentEditable = ref<HTMLDivElement | null>(null)
 
     const handleInput = () => {
-      content.value = contentEditable.value.textContent
+      if(!contentEditable.value){
+        throw Error('This should never happen')
+      }
+      content.value = contentEditable.value.textContent || ''
     }
     onMounted(() => {
       if(!contentEditable.value){
