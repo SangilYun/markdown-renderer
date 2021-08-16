@@ -13,14 +13,15 @@
       <div contenteditable ref="contentEditable" @input="handleInput"/>
     </div>
     <div class="column">
-      {{ content }}
+      <div v-html="html" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, ref } from "vue";
+import { defineComponent, onMounted, PropType, ref, watchEffect } from "vue";
 import { Post } from "@/mocks";
+import { parse } from "marked";
 
 export default defineComponent({
   name: 'PostWriter',
@@ -33,22 +34,40 @@ export default defineComponent({
   setup(props) {
     const title = ref(props.post.title)
     const content = ref('## Title\nEnter your post content...')
+    const html = ref('')
+
+    watchEffect(() => {
+      html.value = parse(content.value, {
+        gfm: true,
+        breaks: true
+      })
+    })
+
+    // This watch function does the same thing as the watchEffect above.
+    // watch(content, (newContent) => {
+    //   html.value = parse(newContent)
+    // }, {
+    //   immediate: true
+    // })
+
     const contentEditable = ref<HTMLDivElement | null>(null)
 
     const handleInput = () => {
       if(!contentEditable.value){
         throw Error('This should never happen')
       }
-      content.value = contentEditable.value.textContent || ''
+      content.value = contentEditable.value.innerText || ''
     }
+
     onMounted(() => {
       if(!contentEditable.value){
         throw Error('This should never happen')
       }
-     contentEditable.value.textContent = content.value
+     contentEditable.value.innerText = content.value
     })
 
     return {
+      html,
       title,
       content,
       contentEditable,
