@@ -1,4 +1,4 @@
-import {reactive, readonly} from "vue";
+import { App, inject, reactive, readonly } from "vue";
 import {Post} from "@/mocks";
 import axios from "axios";
 
@@ -6,19 +6,24 @@ interface State {
   posts: PostsState
 }
 
+export const storeKey = Symbol('store')
+
 interface PostsState {
   ids: string[]
   all: Map<string, Post>
   loaded: boolean
 }
 
-class Store {
+export class Store {
   private state: State
 
   constructor(initial: State) {
     this.state = reactive(initial)
   }
 
+  install(app: App){
+    app.provide(storeKey, this)
+  }
   getState() {
     return readonly(this.state)
   }
@@ -47,7 +52,7 @@ class Store {
 
 const all = new Map<string, Post>()
 
-const store = new Store({
+export const store = new Store({
   posts: {
     all,
     ids: [],
@@ -57,6 +62,11 @@ const store = new Store({
 
 //Very common convention to use prefix `use` in a reusable function.
 //It's often called composables
-export function useStore(){
-  return store
+export function useStore(): Store{
+  const _store = inject<Store>(storeKey)
+  if(!_store){
+    throw Error('Did you forget to call provide?')
+  }
+
+  return _store
 }

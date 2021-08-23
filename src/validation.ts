@@ -28,7 +28,7 @@ export function length(options: LengthOptions): Length {
   }
 }
 
-interface Status {
+export interface Status {
   valid: boolean,
   message?: string
 }
