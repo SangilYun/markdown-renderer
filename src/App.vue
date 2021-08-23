@@ -1,19 +1,55 @@
 <template>
+
+  <div class="modal" :style="style">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div id="modal"></div>
+    </div>
+    <div
+      @click="hide"
+      class="modal-close is-large"
+    ></div>
+  </div>
+
   <section class="section">
     <div class="container">
-      <navbar/>
-      <router-view/>
+      <form-input
+        v-model="username"
+        name="Username"
+        error="There is an error"
+      />
+      <navbar />
+      <router-view />
     </div>
   </section>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import Navbar from "@/components/Navbar.vue";
+import { useModal } from "@/useModal";
+import FormInput from "@/components/FormInput.vue";
 
 export default defineComponent({
   name: 'App',
-  components: {Navbar},
+  components: { FormInput, Navbar },
+  setup() {
+    const modal = useModal()
+    const username = ref('username')
+    const style = computed(() => {
+      return {
+        display: modal.show.value ? 'block' : 'none'
+      }
+    })
+
+    return {
+      style,
+      hide: () => {
+        modal.hideModel()
+      },
+      username
+    }
+  }
 });
 </script>
 
