@@ -1,5 +1,4 @@
 <template>
-
   <div class="modal" :style="style">
     <div class="modal-background"></div>
     <div class="modal-content">
@@ -13,11 +12,6 @@
 
   <section class="section">
     <div class="container">
-      <form-input
-        v-model="username"
-        name="Username"
-        error="There is an error"
-      />
       <navbar />
       <router-view />
     </div>
@@ -25,17 +19,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
-import Navbar from "@/components/Navbar.vue";
-import { useModal } from "@/useModal";
-import FormInput from "@/components/FormInput.vue";
+import { computed, defineComponent } from 'vue';
+import Navbar from "./components/Navbar.vue";
+import { useModal } from "./useModal";
 
 export default defineComponent({
   name: 'App',
-  components: { FormInput, Navbar },
+  components: { Navbar },
   setup() {
     const modal = useModal()
-    const username = ref('username')
     const style = computed(() => {
       return {
         display: modal.show.value ? 'block' : 'none'
@@ -47,7 +39,6 @@ export default defineComponent({
       hide: () => {
         modal.hideModel()
       },
-      username
     }
   }
 });
