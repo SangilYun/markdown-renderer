@@ -17,14 +17,21 @@ export default defineComponent({
   name: 'NewPost',
   components: {PostWriter},
   setup() {
+    const store = useStore()
+    const router = useRouter()
+
+    const authorId = store.getState().authors.currentUserId
+
+    if(!authorId){
+      throw Error('currentUserId was not found')
+    }
+
     const newPost: Post = {
       id: '-1',
       title: 'Enter your title here..',
       created: moment().subtract(1, 'second'),
+      authorId
     }
-
-    const store = useStore()
-    const router = useRouter()
 
     const save = async (post: Post) => {
       await store.createPost(post)
