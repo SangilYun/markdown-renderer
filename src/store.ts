@@ -2,7 +2,6 @@ import { App, inject, reactive, readonly } from "vue";
 import {Post} from "@/mocks";
 import axios from "axios";
 
-
 export interface User {
   id: string,
   username: string,
