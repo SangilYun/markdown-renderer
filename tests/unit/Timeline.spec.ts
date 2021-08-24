@@ -13,6 +13,12 @@ jest.mock('axios', () => ({
 
 function mountTimeline() {
   const store = new Store({
+    authors: {
+      ids: [],
+      all: new Map(),
+      loaded: false,
+      currentUserId: undefined
+    },
     posts: {
       ids: [],
       all: new Map(),

@@ -1,13 +1,13 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import axios from "axios";
-import { thisMonth, thisWeek, today } from "@/mocks";
+import { Post, thisMonth, thisWeek, today } from "@/mocks";
 import { routerWithStore } from './router';
 import 'highlight.js/styles/atom-one-dark.css'
 import { random } from "lodash";
 import { Author, store } from "./store";
 
-function delay(){
+function delay() {
   return new Promise(res => {
     setTimeout(res, 2000)
   })
@@ -15,7 +15,7 @@ function delay(){
 
 //@ts-ignore
 axios.get = async (url: string) => {
-  if(url === '/posts'){
+  if (url === '/posts') {
     await delay()
     return Promise.resolve({
       data: [today, thisWeek, thisMonth]
@@ -25,16 +25,16 @@ axios.get = async (url: string) => {
 
 //@ts-ignore
 axios.post = async (url: string, payload: any) => {
-  if(url === '/posts'){
-    const id = random(100,10000)
+  if (url === '/posts') {
+    const id = random(100, 10000)
     await delay()
-    return Promise.resolve({
+    return Promise.resolve<{ data: Post }>({
       data: { ...payload, id }
     })
   }
 
-  if(url === '/users'){
-    const id = random(100,10000)
+  if (url === '/users') {
+    const id = random(100, 10000)
     await delay()
     const author: Author = {
       id: id.toString(),
