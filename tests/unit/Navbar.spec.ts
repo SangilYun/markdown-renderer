@@ -37,6 +37,7 @@ describe('Navbar', () => {
       }
     })
 
+    await wrapper.get('[data-testid="sign-up"]').trigger('click')
     const form = wrapper.getComponent(Signup)
     expect(document.body.outerHTML).toContain('The value must be between 10 and 40')
     await form.get('#Username').setValue('Username')

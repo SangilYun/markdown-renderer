@@ -26,6 +26,7 @@
       >
         <button
           class="button"
+          data-testid="sign-up"
           @click="signUp"
         >
           Sign Up

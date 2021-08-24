@@ -24,6 +24,12 @@ jest.mock('axios', () => ({
 
 describe('NewPost', () => {
   const store = new Store({
+    authors:{
+      all: new Map([['100', {username:'username', id:'100'}]]),
+      ids: ['100'],
+      loaded: false,
+      currentUserId: '100'
+    },
     posts: {
       all: new Map(),
       ids: [],

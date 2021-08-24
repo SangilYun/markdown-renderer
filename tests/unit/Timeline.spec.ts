@@ -1,5 +1,5 @@
 import Timeline from "@/components/Timeline.vue";
-import {flushPromises, mount,} from '@vue/test-utils'
+import { flushPromises, mount, RouterLinkStub, } from '@vue/test-utils'
 import {thisMonth, thisWeek, today} from "@/mocks";
 import { Store } from "../../src/store";
 
@@ -43,6 +43,9 @@ function mountTimeline() {
 
   return mount(testComp, {
     global: {
+      components: {
+        RouterLink: RouterLinkStub
+      },
       plugins: [store]
     }
   })
