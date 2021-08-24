@@ -1,4 +1,10 @@
 <template>
+  <div class="message is-primary is-marginless">
+    <div class="message-header">
+      <div>Posts for {{currentPeriod.toLowerCase()}}</div>
+    </div>
+  </div>
+
   <nav class="panel">
     <span class="panel-tabs">
       <a
