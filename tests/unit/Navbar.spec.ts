@@ -6,6 +6,12 @@ import Signup from "@/components/Signup.vue";
 describe('Navbar', () => {
   it('shows a signup modal via teleport', async () => {
     const store = new Store({
+      authors: {
+        all: new Map(),
+        ids: [],
+        loaded: false,
+        currentUserId: undefined
+      },
       posts: {
         all: new Map(),
         ids: [],

@@ -8,17 +8,29 @@ export interface User {
   password: string
 }
 
+export type Author = Omit<User, 'password'>
+
+interface BaseState<T> {
+  // o(n)
+  ids: string[]
+
+  // o(1)
+  all: Map<string, T>
+
+  loaded: boolean
+}
+
+type PostsState = BaseState<Post>
+interface AuthorsState extends BaseState<Author> {
+  currentUserId: string | undefined
+}
+
 interface State {
+  authors: AuthorsState
   posts: PostsState
 }
 
 export const storeKey = Symbol('store')
-
-interface PostsState {
-  ids: string[]
-  all: Map<string, Post>
-  loaded: boolean
-}
 
 export class Store {
   private state: State
@@ -42,6 +54,12 @@ export class Store {
   }
 
   async createUser(user: User){
+    const response = await axios.post<Author>('/users', user)
+    this.state.authors.all.set(response.data.id, response.data)
+    this.state.authors.ids.push(response.data.id)
+    this.state.authors.currentUserId = response.data.id
+    console.log('response', response)
+    console.log('this.state.authors', this.state.authors)
   }
 
   async fetchPosts() {
@@ -62,6 +80,12 @@ export class Store {
 const all = new Map<string, Post>()
 
 export const store = new Store({
+  authors: {
+    all: new Map<string, Author>(),
+    ids: [],
+    loaded: false,
+    currentUserId: undefined
+  },
   posts: {
     all,
     ids: [],
