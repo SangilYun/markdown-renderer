@@ -4,14 +4,13 @@ import { Post, today } from "@/mocks";
 
 describe('PostWriter', () => {
   it('emits a save event with the new post', async (done) => {
-    // @ts-ignore
+    const post: Post = {
+      ...today,
+      title: 'New title'
+    }
     const wrapper = mount(PostWriter, {
       props: {
-        post: {
-          id: '',
-          title: 'New title',
-          created: ''
-        }
+        post
       }
     })
 
@@ -37,7 +36,6 @@ describe('PostWriter', () => {
       ...today,
       markdown: '__content__'
     }
-    // @ts-ignore
     const wrapper = mount(PostWriter, {
       props: {
         post
